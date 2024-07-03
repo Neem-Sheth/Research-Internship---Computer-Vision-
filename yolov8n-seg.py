@@ -15,7 +15,7 @@ with open("data/coco.names", "r") as f:
 class_colors = {cls: [random.randint(0, 255) for _ in range(3)] for cls in range(len(classes))}
 
 # Capture video from the webcam
-cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+cap = cv2.VideoCapture("videos/college.mp4")
 
 # Reduce frame size for faster processing
 frame_width = 640
@@ -87,7 +87,7 @@ while True:
     # Calculate and display FPS
     end_time = time.time()
     fps = 1 / (end_time - start_time)
-    cv2.putText(frame, f"FPS: {fps:.2f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+    cv2.putText(frame, "CISMR", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
 
     # Resize the frame for display (increase the size)
     display_frame = cv2.resize(frame, (frame_width * 2, frame_height * 2))  # Double the size of the frame

@@ -16,10 +16,7 @@ class_colors = np.random.uniform(0, 255, size=(len(classes), 3))
 cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)
 
 def calculate_distance(w):
-   
-
     distance = (width * 20) / (w + 10)  # Adjust this formula based on your observations
-
     return distance
 
 while True:

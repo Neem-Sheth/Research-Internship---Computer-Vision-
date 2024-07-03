@@ -15,7 +15,7 @@ with open("data/coco.names", "r") as f:
 class_colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
 # Capture video from the webcam
-cap = cv2.VideoCapture("traffic.mp4")
+cap = cv2.VideoCapture("videos/college.mp4")
 
 # Initialize variables for object tracking
 object_tracker = {}  # Dictionary to store object tracking information
@@ -43,12 +43,19 @@ def calculate_speed(tracker, object_id, new_position, current_time, pixel_to_met
 # Define the conversion ratio (e.g., 0.01 meters per pixel)
 pixel_to_meter_ratio = 0.01
 
+# Reduce frame size for faster processing
+frame_width = 640
+frame_height = 480
+
 while True:
     ret, frame = cap.read()
     if not ret:
         break
 
     height, width, channels = frame.shape
+
+    # Resize frame for faster processing
+    frame = cv2.resize(frame, (frame_width, frame_height))
 
     # Perform object detection
     results = model(frame)
@@ -114,8 +121,10 @@ while True:
             cv2.rectangle(frame, (text_x, text_y - text_size[1] - 4), (text_x + text_size[0], text_y), class_colors[cls], -1)
             cv2.putText(frame, display_label, (text_x, text_y - 2), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1, cv2.LINE_AA)
 
+    cv2.putText(frame, "CISMR", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+
     # Resize the frame for display
-    frame = cv2.resize(frame, (width * 2, height * 2))  # Double the size of the frame
+    frame = cv2.resize(frame, (frame_width * 2, frame_height * 2))  # Double the size of the frame
 
     cv2.imshow("YOLOv8 Object Detection", frame)
 

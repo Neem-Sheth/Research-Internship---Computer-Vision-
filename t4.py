@@ -118,7 +118,7 @@ def getObjects(img, confidence_threshold, nms_threshold, draw=True, objects=[]):
     return img, objectInfo
 
 # Main loop to process video frames
-cap = cv2.VideoCapture("traffic.mp4")
+cap = cv2.VideoCapture("videos/college.mp4")
 
 while True:
     ret, frame = cap.read()
