@@ -11,7 +11,7 @@ with open("data/coco.names", "r") as f:
 
 # Load object heights and widths from the file
 object_dimensions = {}
-with open("data/object_heights.txt", "r") as f:
+with open("data/object_dimensions.txt", "r") as f:
     for line in f:
         class_name, height, width = line.strip().split()
         object_dimensions[class_name] = (float(height), float(width))  # Ensure the dimensions are in meters
@@ -26,9 +26,9 @@ frame = cv2.imread(input_image_path)
 
 def calculate_distance(object_height, bbox_height, object_width, bbox_width, frame_height, frame_width):
     # Adjusted focal length estimation
-    sensor_height_mm = 4.8  # Typical height of a smartphone camera sensor in mm
-    sensor_width_mm = 6.4  # Typical width of a smartphone camera sensor in mm
-    focal_length_mm = 4.0  # Typical focal length of a smartphone camera in mm
+    sensor_height_mm = 99.2  # Typical height of a kitti camera sensor in mm
+    sensor_width_mm = 328.6  # Typical width of a kitti camera sensor in mm
+    focal_length_mm = 190.8  # Typical focal length of a kitti camera in mm
 
     focal_length_px_h = (focal_length_mm / sensor_height_mm) * frame_height  # Focal length in pixels (height)
     focal_length_px_w = (focal_length_mm / sensor_width_mm) * frame_width  # Focal length in pixels (width)
@@ -42,11 +42,13 @@ def calculate_distance(object_height, bbox_height, object_width, bbox_width, fra
 
 
     # if object_height-(bbox_height/100)>1:
-    if object_width-(bbox_width/100)>1:
-    # if object_width-(bbox_width/100)>1 and object_height-(bbox_height/100)>1:
-        distance_f = distance_m + (bbox_height/100) - ((bbox_width/100)/2)
-    else:
-        distance_f = distance_m + (bbox_height/100)
+    # if object_width-(bbox_width/100)>1:
+    # if object_width-(bbox_width/100)>1 or object_height-(bbox_height/100)>1:
+    #     distance_f = distance_m - (bbox_width/100)
+    # else:
+    #     distance_f = distance_m 
+
+    distance_f = distance_m + (object_width-bbox_width/100)
 
     print(object_height, bbox_height, object_width, bbox_width, frame_height, frame_width, distance_m, distance_f)
 
