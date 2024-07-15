@@ -34,15 +34,19 @@ X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.
 train_dataset = KITTIDataset(X_train, y_train)
 val_dataset = KITTIDataset(X_val, y_val)
 
+# Check if CUDA is available
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = 'cpu'
+
 # Initialize and train model
-model = DistancePredictor()
-train_model(model, train_dataset, val_dataset)
+model = DistancePredictor().to(device)
+train_model(model, train_dataset, val_dataset, device)
 
 # Load the best model
 model.load_state_dict(torch.load('best_model.pth'))
 
 # Evaluate model
-y_pred, test_loss = evaluate_model(model, test_dataset)
+y_pred, test_loss = evaluate_model(model, test_dataset, device)
 
 # Plot results
 plot_results(y_test, y_pred)

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from torch import nn
 
-def evaluate_model(model, test_dataset):
+def evaluate_model(model, test_dataset, device):
     test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
     criterion = nn.MSELoss()
     
@@ -12,6 +12,7 @@ def evaluate_model(model, test_dataset):
     y_pred = []
     with torch.no_grad():
         for features, labels in test_loader:
+            features, labels = features.to(device), labels.to(device)
             outputs = model(features)
             loss = criterion(outputs.squeeze(), labels)
             test_loss += loss.item() * features.size(0)

@@ -3,9 +3,9 @@ from torch.utils.data import DataLoader
 from torch import nn
 import torch
 
-def train_model(model, train_dataset, val_dataset, num_epochs=100, learning_rate=0.0001):
-    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
+def train_model(model, train_dataset, val_dataset, device, num_epochs=1000, learning_rate=0.0001):
+    train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
     
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
@@ -16,6 +16,7 @@ def train_model(model, train_dataset, val_dataset, num_epochs=100, learning_rate
         model.train()
         running_loss = 0.0
         for features, labels in train_loader:
+            features, labels = features.to(device), labels.to(device)
             optimizer.zero_grad()
             outputs = model(features)
             loss = criterion(outputs.squeeze(), labels)
@@ -30,6 +31,7 @@ def train_model(model, train_dataset, val_dataset, num_epochs=100, learning_rate
         val_loss = 0.0
         with torch.no_grad():
             for features, labels in val_loader:
+                features, labels = features.to(device), labels.to(device)
                 outputs = model(features)
                 loss = criterion(outputs.squeeze(), labels)
                 val_loss += loss.item() * features.size(0)

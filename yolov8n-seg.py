@@ -15,7 +15,7 @@ with open("data/coco.names", "r") as f:
 class_colors = {cls: [random.randint(0, 255) for _ in range(3)] for cls in range(len(classes))}
 
 # Capture video from the webcam
-cap = cv2.VideoCapture("videos/college.mp4")
+cap = cv2.VideoCapture(0)
 
 # Reduce frame size for faster processing
 frame_width = 640

@@ -15,7 +15,7 @@ with open("data/coco.names", "r") as f:
 class_colors = np.random.uniform(0, 255, size=(len(classes), 3))
 
 # Capture video from the webcam
-cap = cv2.VideoCapture("videos/college.mp4")
+cap = cv2.VideoCapture(0)
 
 # Initialize variables for object tracking
 object_tracker = {}  # Dictionary to store object tracking information
