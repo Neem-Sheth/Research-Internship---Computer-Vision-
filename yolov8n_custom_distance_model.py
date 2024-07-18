@@ -57,7 +57,7 @@ while True:
         break
 
     # Resize the frame to a smaller size for faster processing
-    frame = cv2.resize(frame, (1242, 375))
+    frame = cv2.resize(frame, (1224, 375))
     
     height, width, channels = frame.shape
 
@@ -108,7 +108,7 @@ while True:
         cv2.putText(frame, label, (text_x, text_y - 2), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1, cv2.LINE_AA)
 
     # Resize the frame for display
-    frame = cv2.resize(frame, (1242, 375))
+    frame = cv2.resize(frame, (1224, 375))
 
     cv2.imshow("YOLOv8 Object Detection", frame)
 
