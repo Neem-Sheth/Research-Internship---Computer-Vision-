@@ -27,7 +27,7 @@ class DistancePredictor(nn.Module): # 0.71
         self.dropout = nn.Dropout(0.2)
     
     def forward(self, x): 
-        x = torch.relu(self.fc1(x))
-        x = torch.relu(self.fc2(x))
+        x = torch.selu(self.fc1(x))
+        x = torch.selu(self.fc2(x))
         x = self.fc3(x)
         return x
