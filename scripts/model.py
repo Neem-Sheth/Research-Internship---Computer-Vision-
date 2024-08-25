@@ -18,7 +18,7 @@ import torch
 #         x = self.fc4(x)
 #         return x
 
-class DistancePredictor(nn.Module): # 0.71
+class DistancePredictor(nn.Module): # 0.67
     def __init__(self):
         super(DistancePredictor, self).__init__()
         self.fc1 = nn.Linear(6, 64, True)

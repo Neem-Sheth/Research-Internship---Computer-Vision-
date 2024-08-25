@@ -36,7 +36,7 @@ val_dataset = KITTIDataset(X_val, y_val)
 
 # Check if CUDA is available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-device = 'cpu'
+# device = 'cpu'
 
 # Initialize and train model
 model = DistancePredictor().to(device)
