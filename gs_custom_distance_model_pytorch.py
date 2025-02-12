@@ -7,6 +7,7 @@ from scripts.model import DistancePredictor
 from scripts.train import train_model
 from scripts.evaluate import evaluate_model, plot_results
 import torch
+from scripts.grid_search import grid_search_cv
 
 # Set directories
 kitti_image_dir = "D:/SVNIT/Semester-5/CISMR/kitti_dataset/data_object_image_2/training/image_2"
@@ -38,16 +39,43 @@ val_dataset = KITTIDataset(X_val, y_val)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # device = 'cpu'
 
-# Initialize and train model
-model = DistancePredictor().to(device)
-train_model(model, train_dataset, val_dataset, device)
+# Define parameter grid
+# param_grid = {
+#     'hidden_sizes': [[64, 64]],
+#     'activation': ['relu', 'leaky_relu', 'selu', 'elu', 'silu', 'tanh'],
+#     'dropout_rate': [0.2],
+#     'learning_rate': [0.1, 0.001],
+#     'batch_size': [16, 32, 64],
+#     'num_epochs': [500]
+# }
 
-# Load the best model with training history
-checkpoint = torch.load('best_model_5.pth')
-model.load_state_dict(checkpoint['model_state_dict'])
+param_grid = {
+    'hidden_sizes': [[64, 64]],
+    'activation': ['leaky_relu','silu'],
+    'dropout_rate': [0.2],
+    'learning_rate': [0.001, 0.0001],
+    'batch_size': [16, 32, 64],
+    'num_epochs': [1000]
+}
 
-# Evaluate model
-y_pred, metrics = evaluate_model(model, test_dataset, device)
+# Perform grid search
+best_model, best_params, results = grid_search_cv(
+    train_dataset=train_dataset,
+    val_dataset=val_dataset,
+    device=device,
+    param_grid=param_grid
+)
 
-# Plot results with enhanced visualizations
+# Print results
+print("\nGrid Search Results:")
+for result in sorted(results, key=lambda x: x['val_loss']):
+    print(f"Parameters: {result['params']}")
+    print(f"Validation Loss: {result['val_loss']:.4f}\n")
+
+print("\nBest Parameters:", best_params)
+
+# Evaluate best model on test set
+y_pred, test_loss = evaluate_model(best_model, test_dataset, device)
+
+# Plot results
 plot_results(y_test, y_pred)

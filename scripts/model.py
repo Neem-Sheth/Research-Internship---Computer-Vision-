@@ -31,3 +31,41 @@ class DistancePredictor(nn.Module): # 0.67
         x = torch.selu(self.fc2(x))
         x = self.fc3(x)
         return x
+
+# import torch.nn as nn
+# import torch
+
+# class DistancePredictor(nn.Module):
+#     def __init__(self, hidden_sizes=[64, 64], activation='relu', dropout_rate=0.2):
+#         super(DistancePredictor, self).__init__()
+        
+#         self.activation_dict = {
+#             'relu': nn.ReLU(),
+#             'leaky_relu': nn.LeakyReLU(),
+#             'selu': nn.SELU(),
+#             'elu': nn.ELU(),
+#             'silu': nn.SiLU(),
+#             'tanh': nn.Tanh()
+#         }
+        
+#         self.activation = self.activation_dict[activation]
+#         layers = []
+        
+#         # Input layer
+#         layers.append(nn.Linear(6, hidden_sizes[0]))
+#         layers.append(self.activation)
+#         layers.append(nn.Dropout(dropout_rate))
+        
+#         # Hidden layers
+#         for i in range(len(hidden_sizes)-1):
+#             layers.append(nn.Linear(hidden_sizes[i], hidden_sizes[i+1]))
+#             layers.append(self.activation)
+#             layers.append(nn.Dropout(dropout_rate))
+        
+#         # Output layer(x))
+#         layers.append(nn.Linear(hidden_sizes[-1], 1))
+        
+#         self.model = nn.Sequential(*layers)
+    
+#     def forward(self, x):
+#         return self.model(x)

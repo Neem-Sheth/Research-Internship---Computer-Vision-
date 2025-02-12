@@ -1,0 +1,7 @@
+[
+{
+  "directory": "E:/Programs/Project_Intership/Object_Detection_Navigation/classification_estimation/build",
+  "command": "C:\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin\\g++.exe   -g -o CMakeFiles\\evaluate_object.dir\\evaluate_object.cpp.obj -c E:\\Programs\\Project_Intership\\Object_Detection_Navigation\\classification_estimation\\devkit_object\\cpp\\evaluate_object.cpp",
+  "file": "E:/Programs/Project_Intership/Object_Detection_Navigation/classification_estimation/devkit_object/cpp/evaluate_object.cpp"
+}
+]
